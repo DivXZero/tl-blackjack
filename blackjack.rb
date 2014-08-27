@@ -53,7 +53,7 @@ def get_card_total(player)
   return total
 end
 
-def process_player(player, deck)
+def process_player(player, dealer, deck)
   player_total = get_card_total(player)
 
   if player_total < 21
@@ -62,8 +62,10 @@ def process_player(player, deck)
     choice = options[get_input('Hit or Stay? (h/s)').downcase] until choice != nil
     if choice == options['h']
       deal_card(player, deck)
+      clear_screen
+      display_cards(dealer)
       display_cards(player)
-      process_player(player, deck)
+      process_player(player, dealer, deck)
     end
   end
 end
@@ -160,7 +162,7 @@ def run_game(player, dealer, deck)
     display_cards(dealer)
     display_cards(player)
 
-    process_player(player, deck)
+    process_player(player, dealer, deck)
     process_dealer(dealer, deck)
 
     clear_screen
@@ -183,6 +185,6 @@ player = { name: '', money: 0.0, bet: 0.0, cards: [] }
 dealer = { cards: [] }
 
 clear_screen
-player[:name] = get_input("What's your name?")
+player[:name] = get_input("What's your name?") until player[:name] != ''
 
 run_game(player, dealer, deck)
